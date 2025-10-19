@@ -38,8 +38,28 @@ func inputCoords(field [3][3]string) ([2]int, error) {
 	return correctInputCoords(coords, field)
 }
 
+func checkWin(field [3][3]string) string {
+	for i := 0; i < len(field); i++ {
+		if field[i][0] != "." && field[i][0] == field[i][1] && field[i][1] == field[i][2] {
+			return field[i][0]
+		}
+		if field[0][i] != "." && field[0][i] == field[1][i] && field[1][i] == field[2][i] {
+			return field[0][i]
+		}
+	}
+	if field[0][0] != "." && field[0][0] == field[1][1] && field[1][1] == field[2][2] {
+		return field[0][0]
+	}
+	if field[2][0] != "." && field[2][0] == field[1][1] && field[1][1] == field[0][2] {
+		return field[2][0]
+	}
+
+	return ""
+
+}
+
 func game() {
-	field := [3][3]string{{".", "X", "."}, {"O", ".", "."}, {".", ".", "."}}
+	field := [3][3]string{{".", ".", "."}, {".", ".", "."}, {".", ".", "."}}
 	indexPlayer := 0
 
 	var commandUserInput string
@@ -47,6 +67,7 @@ func game() {
 	fmt.Print("Start game. The first crosses go")
 	fmt.Println("Сommands: 'c number_column number_line' example: 'c 1 2'")
 	fmt.Println("\t's' - stop game")
+	draw(field)
 
 	for {
 		switch commandUserInput {
@@ -64,6 +85,11 @@ func game() {
 				indexPlayer = (indexPlayer + 1) % 2
 
 				draw(field)
+				winner := checkWin(field)
+				if winner != "" {
+					fmt.Printf("Winner: %s", winner)
+					return
+				}
 			}
 
 		case "s":
