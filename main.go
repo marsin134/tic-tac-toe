@@ -55,7 +55,17 @@ func checkWin(field [3][3]string) string {
 	}
 
 	return ""
+}
 
+func checkDraw(field [3][3]string) bool {
+	for i := 0; i < len(field); i++ {
+		for j := 0; j < len(field[i]); j++ {
+			if field[i][j] == "." {
+				return false
+			}
+		}
+	}
+	return true
 }
 
 func game() {
@@ -85,9 +95,14 @@ func game() {
 				indexPlayer = (indexPlayer + 1) % 2
 
 				draw(field)
+
 				winner := checkWin(field)
 				if winner != "" {
 					fmt.Printf("Winner: %s", winner)
+					return
+				}
+				if checkDraw(field) {
+					fmt.Printf("Draw")
 					return
 				}
 			}
