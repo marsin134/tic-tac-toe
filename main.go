@@ -23,7 +23,7 @@ func correctInputCoords(coords [2]int, field [3][3]string) ([2]int, error) {
 	if coords[0] < 1 || coords[1] < 1 || coords[0] > 3 || coords[1] > 3 {
 		return [2]int{0, 0}, CoordsNotCorrectError
 	}
-	if field[coords[0]][coords[1]] != "." {
+	if field[coords[0]-1][coords[1]-1] != "." {
 		return [2]int{0, 0}, CoordsOccupiedCell
 	}
 
@@ -40,12 +40,41 @@ func inputCoords(field [3][3]string) ([2]int, error) {
 
 func game() {
 	field := [3][3]string{{".", "X", "."}, {"O", ".", "."}, {".", ".", "."}}
-	coords, err := inputCoords(field)
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		field[coords[0]-1][coords[1]-1] = "X"
-		draw(field)
+	indexPlayer := 0
+
+	var commandUserInput string
+
+	fmt.Print("Start game. The first crosses go")
+	fmt.Println("Сommands: 'c number_column number_line' example: 'c 1 2'")
+	fmt.Println("\t's' - stop game")
+
+	for {
+		switch commandUserInput {
+		case "c":
+			coords, err := inputCoords(field)
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				if indexPlayer == 0 {
+					field[coords[0]-1][coords[1]-1] = "X"
+				} else {
+					field[coords[0]-1][coords[1]-1] = "O"
+				}
+
+				indexPlayer = (indexPlayer + 1) % 2
+
+				draw(field)
+			}
+
+		case "s":
+			return
+
+		default:
+			fmt.Println("Unknown command")
+		}
+
+		fmt.Printf("Input command: ")
+		fmt.Scan(&commandUserInput)
 	}
 }
 
