@@ -74,8 +74,9 @@ func game() {
 
 	var commandUserInput string
 
-	fmt.Print("Start game. The first crosses go")
+	fmt.Println("Start game. The first crosses go")
 	fmt.Println("Сommands: 'c number_column number_line' example: 'c 1 2'")
+	fmt.Println("\t'r' - restart game")
 	fmt.Println("\t's' - stop game")
 	draw(field)
 
@@ -98,14 +99,21 @@ func game() {
 
 				winner := checkWin(field)
 				if winner != "" {
-					fmt.Printf("Winner: %s", winner)
-					return
+					fmt.Printf("Winner: %s\n", winner)
+					fmt.Printf("To finish, enter 's' or restart with 'r'\n\n")
 				}
 				if checkDraw(field) {
-					fmt.Printf("Draw")
-					return
+					fmt.Println("Draw")
+					fmt.Printf("To finish, enter 's' or restart with 'r'\n\n")
 				}
 			}
+
+		case "r":
+			field = [3][3]string{{".", ".", "."}, {".", ".", "."}, {".", ".", "."}}
+			indexPlayer = 0
+
+			fmt.Println("Start game. The first crosses go")
+			draw(field)
 
 		case "s":
 			return
