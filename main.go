@@ -75,7 +75,7 @@ func game() {
 	var commandUserInput string
 
 	fmt.Println("Start game. The first crosses go")
-	fmt.Println("Сommands: 'c number_column number_line' example: 'c 1 2'")
+	fmt.Println("Сommands: 'c number_line number_colum ' example: 'c 1 2'")
 	fmt.Println("\t'r' - restart game")
 	fmt.Println("\t's' - stop game")
 	draw(field)
